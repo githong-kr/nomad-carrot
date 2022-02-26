@@ -1,19 +1,22 @@
-/* eslint-disable react/jsx-key */
 import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
   return (
-    <div className="grid min-h-screen gap-10 bg-slate-400 py-20 px-20">
-      <div className="rounded-3xl bg-white p-6 shadow-xl sm:bg-red-400 md:bg-teal-400 lg:bg-indigo-400 2xl:bg-pink-400 xl:bg-yellow-400">
-        <span className="text-3xl font-semibold">Select Item</span>
+    <div className=" grid min-h-screen gap-10 bg-slate-400 py-20 px-20 lg:grid-cols-2 xl:grid-cols-3 xl:place-content-center">
+      <div className="flex flex-col justify-between rounded-3xl bg-white p-6 shadow-xl dark:bg-black">
+        <span className="text-3xl font-semibold dark:text-white">
+          Select Item
+        </span>
         <ul>
-          {[1, 2, 3, 4, 5].map((index) => (
+          {[1, 2].map((index) => (
             <div
               key={index}
-              className="my-2 flex justify-between even:bg-blue-50"
+              className="my-2 flex justify-between even:bg-blue-50 dark:even:bg-gray-700"
             >
-              <span className="text-gray-500">Grey Chair</span>
-              <span className="font-semibold">$19</span>
+              <span className="text-gray-500 dark:text-gray-100 ">
+                Grey Chair
+              </span>
+              <span className="font-semibold dark:text-white">$19</span>
             </div>
           ))}
         </ul>
@@ -22,13 +25,13 @@ const Home: NextPage = () => {
           <span className="font-semibold">$103</span>
         </div>
         <div className="flex justify-center">
-          <button className="mt-5 w-3/4 rounded-xl bg-blue-500 p-3 text-center text-white hover:bg-teal-500 hover:text-black active:bg-yellow-500">
+          <button className="mt-5 w-3/4 rounded-xl bg-blue-500 p-3 text-center text-white hover:bg-teal-500 hover:text-black active:bg-yellow-500 dark:border dark:border-white  dark:bg-black dark:hover:bg-white ">
             Checkout
           </button>
         </div>
       </div>
       <div className="group overflow-hidden rounded-3xl bg-white shadow-xl">
-        <div className="flex justify-between bg-blue-500 p-6 pb-14">
+        <div className="flex justify-between p-6 pb-14 xl:pb-40 portrait:bg-green-500 landscape:bg-teal-500">
           <span className="text-2xl text-white">Profile</span>
           <span>cartIcon</span>
         </div>
@@ -50,7 +53,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-3xl bg-white p-6 shadow-xl">
+      <div className="rounded-3xl bg-white p-6 shadow-xl lg:col-span-2 xl:col-span-1">
         {/* header */}
         <div className="mb-5 flex items-center justify-between">
           {/* arrow */}

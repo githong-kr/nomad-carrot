@@ -5,6 +5,7 @@ module.exports = {
      ** Tailwind 를 사용한 걸 찾아낸다. */
     './pages/**/*.{js,jsx,ts,tsx}',
     './components/**/*.{js,jsx,ts,tsx}',
+    './public/**/*.{svg}',
   ],
   theme: {
     extend: {},

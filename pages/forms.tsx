@@ -1,55 +1,65 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 
-// Less Code
+// Less Code (checked)
 // Better validation
 // Better Errors (set, clear, display)
 // Have control over inputs
-// Don't deal with events
-// Easier Inputs
+// Don't deal with events (checked)
+// Easier Inputs (checked)
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
 const Forms: NextPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({ mode: 'onChange' });
 
-  const onEmailChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = e;
-    setEmail(value);
+  const onValid = (data: LoginForm) => {
+    console.log(data);
   };
 
-  const onPasswordChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = e;
-    setPassword(value);
-  };
-
-  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(email, password);
+  const onInvalid = (errors: FieldErrors) => {
+    console.log(errors);
   };
 
   return (
     <div>
-      <form onSubmit={onSubmit} className="flex flex-col space-y-5 mt-5">
+      <form
+        onSubmit={handleSubmit(onValid, onInvalid)}
+        className="flex flex-col space-y-5 mt-5"
+      >
         <input
-          onChange={onEmailChange}
-          value={email}
+          {...register('email', {
+            required: `Email is required`,
+            minLength: {
+              message: 'The Email should be longer than 5 chars',
+              value: 5,
+            },
+          })}
           type="email"
           placeholder="email"
-          required
         />
         <input
-          onChange={onPasswordChange}
-          value={password}
+          {...register('password', {
+            required: `Password is required`,
+            minLength: {
+              message: 'The Password should be longer than 5 chars',
+              value: 5,
+            },
+          })}
           type="password"
           placeholder="pw"
-          required
         />
         <input type="submit" value="Submit" />
       </form>
+      {errors.email?.message}
+      {errors.password?.message}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Button from '../components/button';
-import Input from '../components/input';
-import { cls } from '../libs/utils';
+import Button from '@components/button';
+import Input from '@components/input';
+import useMutation from '@libs/client/useMutation';
+import { cls } from '@libs/client/utils';
 
 interface EnterForm {
   email?: string;
@@ -11,12 +12,15 @@ interface EnterForm {
 }
 
 const Enter: NextPage = () => {
+  const [enter, { loading, data, error }] = useMutation('/api/users/enter');
+  const [submitting, setSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<EnterForm>();
 
   const [method, setMethod] = useState<'email' | 'phone'>('email');
   const onEmailClick = () => {
@@ -28,10 +32,11 @@ const Enter: NextPage = () => {
     setMethod('phone');
   };
 
-  const onValid = (data: EnterForm) => {
-    console.log(data);
+  const onValid = async (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
   };
-
+  console.log(loading, data, error);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
@@ -91,9 +96,13 @@ const Enter: NextPage = () => {
               required
             />
           ) : null}
-          {method === 'email' ? <Button text={'Get login link'} /> : null}
+          {method === 'email' ? (
+            <Button text={submitting ? 'Loading...' : 'Get login link'} />
+          ) : null}
           {method === 'phone' ? (
-            <Button text={'Get one-time password'} />
+            <Button
+              text={submitting ? 'Loading...' : 'Get one-time password'}
+            />
           ) : null}
         </form>
 

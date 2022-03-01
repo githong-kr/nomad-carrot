@@ -36,22 +36,22 @@ const handler = async (
   });
 
   if (phone) {
-    const message = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_SERVICE_SID,
-      to: process.env.PHONE_NUMBER!,
-      body: `Your login token is ${payload}`,
-    });
-    console.log(message);
+    // const message = await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_SERVICE_SID,
+    //   to: process.env.PHONE_NUMBER!,
+    //   body: `Your login token is ${payload}`,
+    // });
+    // console.log(message);
   } else if (email) {
-    console.log(email);
-    const message = await sgMail.send({
-      to: email,
-      from: 'githong@kakao.com',
-      subject: 'Your Carrot Market Verification Email',
-      text: `Your token is ${payload}`,
-      html: `<strong>Your token is ${payload}</strong>`,
-    });
-    console.log(message);
+    // console.log(email);
+    // const message = await sgMail.send({
+    //   to: email,
+    //   from: 'githong@kakao.com',
+    //   subject: 'Your Carrot Market Verification Email',
+    //   text: `Your token is ${payload}`,
+    //   html: `<strong>Your token is ${payload}</strong>`,
+    // });
+    // console.log(message);
   }
 
   return res.status(200).json({ ok: true });

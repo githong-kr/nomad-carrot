@@ -35,7 +35,6 @@ const Enter: NextPage = () => {
     if (loading) return;
     enter(validForm);
   };
-  console.log(loading, data, error);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>

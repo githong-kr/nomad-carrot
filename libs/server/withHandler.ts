@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const withHandler = async (
+export interface RespnseType {
+  ok: boolean;
+  [key: string]: any;
+}
+
+const withHandler = (
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   handler: (req: NextApiRequest, res: NextApiResponse) => void
 ) => {
@@ -8,7 +13,6 @@ const withHandler = async (
     if (req.method !== method) {
       return res.status(405).end();
     }
-
     try {
       await handler(req, res);
     } catch (error) {

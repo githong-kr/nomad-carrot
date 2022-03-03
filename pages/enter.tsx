@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { FieldErrors, useForm } from 'react-hook-form';
 import Button from '@components/button';
 import Input from '@components/input';
 import useMutation from '@libs/client/useMutation';
 import { cls } from '@libs/client/utils';
+import { useRouter } from 'next/router';
 
 interface EnterForm {
   email?: string;
@@ -51,10 +52,21 @@ const Enter: NextPage = () => {
     enter(validForm);
   };
 
+  const onInvaled = async (error: FieldErrors) => {
+    console.log(error);
+  };
+
   const onTokenVaild = async (validForm: TokenForm) => {
     if (tokenLoading) return;
     confirmToken(validForm);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (tokenData?.ok) {
+      router.push('/');
+    }
+  }, [tokenData, router]);
 
   return (
     <div className="mt-16 px-4">
@@ -111,7 +123,7 @@ const Enter: NextPage = () => {
               </div>
             </div>
             <form
-              onSubmit={handleSubmit(onValid)}
+              onSubmit={handleSubmit(onValid, onInvaled)}
               className="mt-8 flex flex-col space-y-4"
             >
               {method === 'email' ? (
@@ -129,11 +141,14 @@ const Enter: NextPage = () => {
                 <Input
                   register={register('phone', {
                     required: `The phone number is required.`,
-                    valueAsNumber: true,
+                    validate: {
+                      NotNumber: (v) =>
+                        !isNaN(v as any) || 'The phone number is not a number',
+                    },
                   })}
                   name="phone"
                   label="Phone number"
-                  type="number"
+                  type="text"
                   kind="phone"
                   required
                 />

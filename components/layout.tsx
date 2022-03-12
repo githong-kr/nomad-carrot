@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { cls } from '@libs/client/utils';
 import { useRouter } from 'next/router';
+import useUser from '@libs/client/useUser';
 
 interface LayoutProps {
   title?: string;
@@ -16,6 +17,7 @@ export default function Layout({
   hasTabBar,
   children,
 }: LayoutProps) {
+  const {user} = useUser()
   const router = useRouter();
   const onClick = () => {
     router.back();
@@ -152,7 +154,7 @@ export default function Layout({
               <span>라이브</span>
             </a>
           </Link>
-          <Link href="/profile">
+          <Link href={`/profiles/${user?.id}`}>
             <a
               className={cls(
                 'flex flex-col items-center space-y-2 ',

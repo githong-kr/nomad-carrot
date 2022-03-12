@@ -10,17 +10,23 @@ interface ReviewWithCreatedByUser extends Review {
   createdBy: User;
 }
 
-const Profile: NextPage = () => {
-  const { user, isLoading } = useUser();
-  const { data } = useSWR(`/api/reviews`);
+interface ProfileResponse {
+  ok:boolean;
+  userData:User;
+  receivedReviews:ReviewWithCreatedByUser;
+}
 
-  return isLoading ? null : (
+const Profile: NextPage = () => {
+  const { data } = useSWR<ProfileResponse>(`/api/reviews`);
+  console.log(data)
+
+  return data ? (
     <Layout hasTabBar title="나의 캐럿">
       <div className="px-4">
         <div className="mt-4 flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-900">{user?.name}</span>
+            <span className="font-medium text-gray-900">{data?.userData?.name}</span>
             <Link href="/profiles/edit">
               <a className="text-sm text-gray-700">Edit profile &rarr;</a>
             </Link>
@@ -135,7 +141,7 @@ const Profile: NextPage = () => {
         )}
       </div>
     </Layout>
-  );
+  ) : null;
 };
 
 export default Profile;

@@ -11,7 +11,16 @@ const handler = async (
     session: { user },
   } = req;
 
-  console.log(user?.id);
+  const userData = await client.user.findUnique({
+    where: {
+      id: user?.id,
+    },
+    select: {
+      id: true,
+      name: true,
+      avatar: true,
+    },
+  });
 
   const receivedReviews = await client.review.findMany({
     where: {
@@ -24,7 +33,7 @@ const handler = async (
     },
   });
 
-  return res.status(200).json({ ok: true, receivedReviews });
+  return res.status(200).json({ ok: true, userData, receivedReviews });
 };
 
 export default withApiSession(withHandler({ methods: ['GET'], handler }));

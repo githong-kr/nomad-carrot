@@ -9,7 +9,7 @@ const handler = async (
 ) => {
   const { user } = req.session;
 
-  const favProducts = await client.favorite.findMany({
+  const purchased = await client.purcahse.findMany({
     where: {
       userId: user?.id,
     },
@@ -19,12 +19,17 @@ const handler = async (
           image: true,
           name: true,
           price: true,
+          _count: {
+            select: {
+              favorites: true,
+            },
+          },
         },
       },
     },
   });
 
-  return res.status(200).json({ ok: true, favProducts });
+  return res.status(200).json({ ok: true, purchased });
 };
 
 export default withApiSession(withHandler({ methods: ['GET'], handler }));

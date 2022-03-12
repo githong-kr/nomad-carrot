@@ -2,11 +2,13 @@ import type { NextPage } from 'next';
 import Button from '@components/button';
 import Layout from '@components/layout';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import useSWR, { mutate, useSWRConfig } from 'swr';
 import Link from 'next/link';
 import { Product, User } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import useMutation from '@libs/client/useMutation';
+import useUser from '@libs/client/useUser';
+import Preview from 'twilio/lib/rest/Preview';
 
 interface ProductWithUser extends Product {
   user: User;
@@ -20,29 +22,27 @@ interface ItemDetailResponse {
 }
 
 const ItemDetail: NextPage = () => {
-  const [favProduct, setFavProduct] = useState(false);
+  const { user, isLoading } = useUser();
   const router = useRouter();
-  const { data } = useSWR<ItemDetailResponse>(
+  const {} = useSWRConfig();
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
-
-  useEffect(() => {
-    data ? setFavProduct(data?.isFav) : null;
-  }, [data]);
 
   const [
     toggleFav,
     { loading: toggleLoading, data: toggleData, error: toggleError },
   ] = useMutation(`/api/products/${router.query.id}/fav`);
+
   const onFavClick = () => {
     if (toggleLoading) return;
 
+    boundMutate((prev) => prev && { ...prev, isFav: !prev?.isFav }, false);
+    // mutate('/api/users/me');
     toggleFav({
       userId: data?.product?.userId,
       productId: data?.product?.id,
     });
-
-    setFavProduct((cur) => !cur);
   };
 
   return data ? (
@@ -56,7 +56,7 @@ const ItemDetail: NextPage = () => {
               <p className="text-sm font-medium text-gray-700">
                 {data?.product?.user?.name}
               </p>
-              <Link href={`/users/profiles/${data?.product?.user?.id}`}>
+              <Link href={`/profiles/${data?.product?.user?.id}`}>
                 <a className="text-xs font-medium text-gray-500">
                   View profile &rarr;
                 </a>
@@ -80,9 +80,9 @@ const ItemDetail: NextPage = () => {
                 <svg
                   className="h-6 w-6 "
                   xmlns="http://www.w3.org/2000/svg"
-                  fill={favProduct ? 'red' : 'none'}
+                  fill={data?.isFav ? 'red' : 'none'}
                   viewBox="0 0 24 24"
-                  stroke={favProduct ? 'red' : 'currentColor'}
+                  stroke={data?.isFav ? 'red' : 'currentColor'}
                   aria-hidden="true"
                 >
                   <path

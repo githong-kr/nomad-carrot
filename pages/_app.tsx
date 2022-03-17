@@ -5,9 +5,9 @@ import useUser from '@libs/client/useUser';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const publicPages = ['Enter'];
-  useUser(publicPages.includes(Component.name));
-
-  return  (
+  const { user, isLoading } = useUser(Boolean(publicPages.includes(Component.name)));
+  pageProps = { ...pageProps, ...user };
+  return isLoading ? null : (
     <SWRConfig
       value={{
         fetcher: (url: string) =>

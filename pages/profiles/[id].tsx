@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import Layout from '@components/layout';
-import useUser from '@libs/client/useUser';
 import useSWR from 'swr';
 import { cls } from '@libs/client/utils';
 import { Review, User } from '@prisma/client';
@@ -11,14 +10,13 @@ interface ReviewWithCreatedByUser extends Review {
 }
 
 interface ProfileResponse {
-  ok:boolean;
-  userData:User;
-  receivedReviews:ReviewWithCreatedByUser;
+  ok: boolean;
+  receivedReviews: ReviewWithCreatedByUser[];
 }
 
-const Profile: NextPage = () => {
+const Profile: NextPage<User> = (props) => {
+  const { name } = props;
   const { data } = useSWR<ProfileResponse>(`/api/reviews`);
-  console.log(data)
 
   return data ? (
     <Layout hasTabBar title="나의 캐럿">
@@ -26,7 +24,7 @@ const Profile: NextPage = () => {
         <div className="mt-4 flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-900">{data?.userData?.name}</span>
+            <span className="font-medium text-gray-900">{name}</span>
             <Link href="/profiles/edit">
               <a className="text-sm text-gray-700">Edit profile &rarr;</a>
             </Link>
@@ -117,10 +115,10 @@ const Profile: NextPage = () => {
                       <svg
                         key={score}
                         className={cls(
-                          'h-5 w-5',
+                          { classNames: 'h-5 w-5' },
                           score <= receivedReview.score
-                            ? 'text-yellow-400'
-                            : 'text-gray-400'
+                            ? { classNames: 'text-yellow-400' }
+                            : { classNames: 'text-gray-400' }
                         )}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"

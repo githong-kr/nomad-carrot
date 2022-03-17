@@ -27,8 +27,8 @@ const handler = async (
   });
 
   const isFav = Boolean(
-    await client.favorite.findFirst({
-      where: { userId: user?.id, productId: product?.id },
+    await client.record.findFirst({
+      where: { userId: user?.id, productId: product?.id, kind: 'Favorite' },
       select: {
         id: true,
       },

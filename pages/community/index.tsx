@@ -24,7 +24,7 @@ const Community: NextPage = () => {
 
   return (
     <Layout hasTabBar title="동네생활">
-      <div className="space-y-4 divide-y-[2px]">
+      <div className="space-y-4 divide-y-[2px] max-w-xl">
         {data?.posts?.map((post: PostWithUserName, index: number) => (
           <Link key={index} href={`/community/${post.id}`}>
             <a className="flex cursor-pointer flex-col items-start pt-4">

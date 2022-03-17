@@ -115,8 +115,8 @@ const CommunityPostDetail: NextPage = () => {
             <button
               onClick={onClickWondering}
               className={cls(
-                'flex items-center space-x-2 text-sm',
-                postData?.isWondering ? 'text-green-400' : ''
+                {classNames:'flex items-center space-x-2 text-sm'},
+                postData?.isWondering ? {classNames:'text-green-400'} : {}
               )}
             >
               <svg

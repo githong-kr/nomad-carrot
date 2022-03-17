@@ -12,14 +12,14 @@ const handler = async (
     session: { user },
   } = req;
 
-  const alreadExists = await client.favorite.findFirst({
-    where: { userId: user?.id, productId: +id.toString() },
+  const alreadExists = await client.record.findFirst({
+    where: { userId: user?.id, productId: +id.toString(), kind: 'Favorite' },
   });
 
   let isFav;
   if (!alreadExists) {
     isFav = true;
-    await client.favorite.create({
+    await client.record.create({
       data: {
         user: {
           connect: {
@@ -31,11 +31,12 @@ const handler = async (
             id: +id.toString(),
           },
         },
+        kind: 'Favorite',
       },
     });
   } else {
     isFav = false;
-    await client.favorite.delete({
+    await client.record.delete({
       where: {
         id: alreadExists.id,
       },

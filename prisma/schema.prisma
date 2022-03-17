@@ -27,9 +27,6 @@ model User {
   wonderings      Wondering[]
   writtenReviews  Review[]    @relation(name: "writtenReviews")
   receivedReviews Review[]    @relation(name: "receivedReviews")
-  sales           Sale[]
-  purchases       Purcahse[]
-  favorites       Favorite[]
   records         Record[]
 }
 
@@ -43,18 +40,15 @@ model Token {
 }
 
 model Product {
-  id          Int        @id @default(autoincrement())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   image       String?
   name        String
   price       Int
-  description String?    @db.MediumText
-  sales       Sale[]
-  purchases   Purcahse[]
-  favorites   Favorite[]
+  description String?  @db.MediumText
   records     Record[]
 }
 
@@ -103,36 +97,6 @@ model Review {
   createdById  Int
   createdForId Int
   score        Int
-}
-
-model Sale {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-}
-
-model Purcahse {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-}
-
-model Favorite {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
 }
 
 model Record {

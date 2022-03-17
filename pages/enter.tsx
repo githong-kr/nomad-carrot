@@ -63,6 +63,7 @@ const Enter: NextPage = () => {
 
   const router = useRouter();
   useEffect(() => {
+    console.log(tokenData)
     if (tokenData?.ok) {
       router.push('/');
     }
@@ -100,10 +101,11 @@ const Enter: NextPage = () => {
               <div className="mt-8  grid  w-full grid-cols-2 border-b ">
                 <button
                   className={cls(
-                    'border-b-2 pb-4 text-sm font-medium',
+                    { classNames: 'border-b-2 pb-4 text-sm font-medium' },
                     method === 'email'
-                      ? ' border-orange-500 text-orange-400'
-                      : 'border-transparent text-gray-500 hover:text-gray-400'
+                      ? { classNames: 'border-orange-500 text-orange-400' }
+                      : { classNames: 'border-transparent text-gray-500' },
+                    { prefix: 'hover', classNames: 'text-gray-400' }
                   )}
                   onClick={onEmailClick}
                 >
@@ -111,10 +113,11 @@ const Enter: NextPage = () => {
                 </button>
                 <button
                   className={cls(
-                    'border-b-2 pb-4 text-sm font-medium',
+                    { classNames: 'border-b-2 pb-4 text-sm font-medium' },
                     method === 'phone'
-                      ? ' border-orange-500 text-orange-400'
-                      : 'border-transparent text-gray-500 hover:text-gray-400'
+                      ? { classNames: 'border-orange-500 text-orange-400' }
+                      : { classNames: 'border-transparent text-gray-500' },
+                    { prefix: 'hover', classNames: 'text-gray-400' }
                   )}
                   onClick={onPhoneClick}
                 >

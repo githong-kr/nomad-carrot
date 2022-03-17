@@ -12,7 +12,7 @@ const handler = async (
       include: {
         _count: {
           select: {
-            favorites: true,
+            records: true,
           },
         },
       },

@@ -2,16 +2,21 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { withApiSession } from '@libs/server/withSession';
 import client from '@libs/server/client';
 import withHandler, { RespnseType } from '@libs/server/withHandler';
+import { Kind } from '@prisma/client';
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<RespnseType>
 ) => {
-  const { user } = req.session;
+  const {
+    session: { user },
+    query: { kind },
+  } = req;
 
-  const purchased = await client.purcahse.findMany({
+  const records = await client.record.findMany({
     where: {
       userId: user?.id,
+      kind: kind.toString() as Kind,
     },
     include: {
       product: {
@@ -21,7 +26,7 @@ const handler = async (
           price: true,
           _count: {
             select: {
-              favorites: true,
+              records: true,
             },
           },
         },
@@ -29,7 +34,7 @@ const handler = async (
     },
   });
 
-  return res.status(200).json({ ok: true, purchased });
+  return res.status(200).json({ ok: true, records });
 };
 
 export default withApiSession(withHandler({ methods: ['GET'], handler }));

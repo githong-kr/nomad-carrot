@@ -14,8 +14,8 @@ export default function Message({
   return (
     <div
       className={cls(
-        {classNames:'flex items-start'},
-        reversed ? {classNames:'flex-row-reverse space-x-reverse'} : {classNames:'space-x-2'}
+        {classNames:'flex items-start space-x-2'},
+        reversed ? {classNames:'flex-row-reverse space-x-reverse '} : {classNames:''}
       )}
     >
       <div className="w-8 h-8 rounded-full bg-slate-400" />

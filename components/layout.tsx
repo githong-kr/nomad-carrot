@@ -17,7 +17,7 @@ export default function Layout({
   hasTabBar,
   children,
 }: LayoutProps) {
-  const {user} = useUser()
+  const { user } = useUser();
   const router = useRouter();
   const onClick = () => {
     router.back();
@@ -44,19 +44,29 @@ export default function Layout({
           </button>
         ) : null}
         {title ? (
-          <span className={cls(canGoBack ?{ classNames:'mx-auto'} : {})}>{title}</span>
+          <span className={cls(canGoBack ? { classNames: 'mx-auto' } : {})}>
+            {title}
+          </span>
         ) : null}
       </div>
-      <div className={cls({classNames:'pt-12'}, hasTabBar ? {classNames:'pb-24'} : {})}>{children}</div>
+      <div
+        className={cls(
+          { classNames: 'pt-12' },
+          hasTabBar ? { classNames: 'pb-24' } : {}
+        )}
+      >
+        {children}
+      </div>
       {hasTabBar ? (
         <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-10 pb-5 pt-3 text-xs text-gray-700">
           <Link href="/">
             <a
               className={cls(
-                {classNames:'flex flex-col items-center space-y-2 '},
+                { classNames: 'flex flex-col items-center space-y-2 ' },
                 router.pathname === '/'
-                  ? {classNames:'text-orange-500'}
-                  : {classNames:'transition-colors'}, {prefix:'hover', classNames:'text-gray-500'}
+                  ? { classNames: 'text-orange-500' }
+                  : { classNames: 'transition-colors' },
+                { prefix: 'hover', classNames: 'text-gray-500' }
               )}
             >
               <svg
@@ -79,10 +89,11 @@ export default function Layout({
           <Link href="/community">
             <a
               className={cls(
-                {classNames:'flex flex-col items-center space-y-2'},
+                { classNames: 'flex flex-col items-center space-y-2' },
                 router.pathname === '/community'
-                  ? {classNames:'text-orange-500'}
-                  : {classNames:'transition-colors'}, {prefix:'hover', classNames:'text-gray-500'}
+                  ? { classNames: 'text-orange-500' }
+                  : { classNames: 'transition-colors' },
+                { prefix: 'hover', classNames: 'text-gray-500' }
               )}
             >
               <svg
@@ -105,10 +116,11 @@ export default function Layout({
           <Link href="/chats">
             <a
               className={cls(
-                {classNames:'flex flex-col items-center space-y-2 '},
+                { classNames: 'flex flex-col items-center space-y-2 ' },
                 router.pathname === '/chats'
-                  ? {classNames:'text-orange-500'}
-                  : {classNames:'transition-colors'}, {prefix:'hover', classNames:'text-gray-500'}
+                  ? { classNames: 'text-orange-500' }
+                  : { classNames: 'transition-colors' },
+                { prefix: 'hover', classNames: 'text-gray-500' }
               )}
             >
               <svg
@@ -128,13 +140,14 @@ export default function Layout({
               <span>채팅</span>
             </a>
           </Link>
-          <Link href="/live">
+          <Link href="/streams">
             <a
               className={cls(
-                {classNames:'flex flex-col items-center space-y-2 '},
-                router.pathname === '/live'
-                  ? {classNames:'text-orange-500'}
-                  : {classNames:'transition-colors'}, {prefix:'hover', classNames:'text-gray-500'}
+                { classNames: 'flex flex-col items-center space-y-2 ' },
+                router.pathname === '/streams'
+                  ? { classNames: 'text-orange-500' }
+                  : { classNames: 'transition-colors' },
+                { prefix: 'hover', classNames: 'text-gray-500' }
               )}
             >
               <svg
@@ -157,10 +170,11 @@ export default function Layout({
           <Link href={`/profiles/${user?.id}`}>
             <a
               className={cls(
-                {classNames:'flex flex-col items-center space-y-2 '},
+                { classNames: 'flex flex-col items-center space-y-2 ' },
                 router.pathname === '/profile'
-                  ? {classNames:'text-orange-500'}
-                  : {classNames:'transition-colors'}, {prefix:'hover', classNames:'text-gray-500'}
+                  ? { classNames: 'text-orange-500' }
+                  : { classNames: 'transition-colors' },
+                { prefix: 'hover', classNames: 'text-gray-500' }
               )}
             >
               <svg

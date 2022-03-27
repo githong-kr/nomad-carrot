@@ -9,9 +9,10 @@ const client = new PrismaClient({
 });
 
 client.$on('query', (e) => {
-  console.log('Query: ' + e.query);
-  console.log('Params: ' + e.params);
-  console.log('Duration: ' + e.duration + 'ms');
+  // Query Logging
+  // console.log('Query: ' + e.query);
+  // console.log('Params: ' + e.params);
+  // console.log('Duration: ' + e.duration + 'ms');
 });
 
 if (process.env.NODE_ENV === 'development') {
